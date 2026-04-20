@@ -53,7 +53,8 @@ export type UiImage = {
   fileTypeLabel: string;
   accentFrom: string;
   accentTo: string;
-  imageUrl: string;
+  imageUrl?: string;
+  previewLabel: string;
 };
 
 export function toImageResponse(image: PersistedImage) {
@@ -75,6 +76,8 @@ export function toImageResponse(image: PersistedImage) {
 
 export function toUiImage(image: PersistedImage): UiImage {
   const [accentFrom, accentTo] = getAccentPair(image.id);
+  const fileTypeLabel = image.mimeType.split("/").pop()?.toUpperCase() ?? "ARQUIVO";
+  const isImage = image.mimeType.startsWith("image/");
 
   return {
     id: image.id,
@@ -83,10 +86,11 @@ export function toUiImage(image: PersistedImage): UiImage {
     subtitle: image.originalName,
     createdAtLabel: formatDate(image.createdAt),
     sizeLabel: formatFileSize(image.size),
-    fileTypeLabel: image.mimeType.replace("image/", "").toUpperCase(),
+    fileTypeLabel,
     accentFrom,
     accentTo,
-    imageUrl: `/api/uploads/${image.filename}`,
+    imageUrl: isImage ? `/api/uploads/${image.filename}` : undefined,
+    previewLabel: getPreviewLabel(image.mimeType),
   };
 }
 
@@ -149,4 +153,24 @@ function getAccentPair(seed: string) {
     palette.length;
 
   return palette[index];
+}
+
+function getPreviewLabel(mimeType: string) {
+  if (mimeType.startsWith("image/")) {
+    return "Preview";
+  }
+
+  if (mimeType === "application/pdf") {
+    return "PDF";
+  }
+
+  if (mimeType.startsWith("audio/")) {
+    return "Audio";
+  }
+
+  if (mimeType.startsWith("video/")) {
+    return "Video";
+  }
+
+  return "Arquivo";
 }

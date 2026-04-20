@@ -38,6 +38,9 @@ export default async function EditImagePage({ params }: EditImagePageProps) {
       title={`Editar: ${uiImage.title}`}
       description="Formulario de edicao conectado ao registro real da imagem."
       userName={session.user.name}
+      showFileCount={false}
+      showSidebar={false}
+      showLogout={false}
     >
       <ImageForm mode="edit" image={uiImage} />
     </DashboardShell>

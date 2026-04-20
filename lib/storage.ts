@@ -3,8 +3,23 @@ import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { env } from "./env";
 
-const ALLOWED_MIME_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
-const MAX_FILE_SIZE_IN_BYTES = 5 * 1024 * 1024;
+const ALLOWED_MIME_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "application/pdf",
+  "audio/mpeg",
+  "audio/mp3",
+  "audio/wav",
+  "audio/x-wav",
+  "audio/ogg",
+  "audio/webm",
+  "video/mp4",
+  "video/webm",
+  "video/ogg",
+  "video/quicktime",
+]);
+const MAX_FILE_SIZE_IN_BYTES = 50 * 1024 * 1024;
 
 export async function ensureUploadDirectory() {
   const uploadDirectory = path.resolve(process.cwd(), env.UPLOAD_DIR);
@@ -27,11 +42,11 @@ export async function ensureUserUploadDirectory(userName: string) {
 
 export function validateImageFile(file: File) {
   if (!ALLOWED_MIME_TYPES.has(file.type)) {
-    throw new Error("Tipo de arquivo nao permitido");
+    throw new Error("Tipo de arquivo nao permitido. Envie imagem, PDF, audio ou video.");
   }
 
   if (file.size > MAX_FILE_SIZE_IN_BYTES) {
-    throw new Error("Arquivo excede o limite de 5MB");
+    throw new Error("Arquivo excede o limite de 50MB");
   }
 }
 
@@ -81,6 +96,26 @@ function getExtensionFromMimeType(mimeType: string) {
       return ".png";
     case "image/webp":
       return ".webp";
+    case "application/pdf":
+      return ".pdf";
+    case "audio/mpeg":
+    case "audio/mp3":
+      return ".mp3";
+    case "audio/wav":
+    case "audio/x-wav":
+      return ".wav";
+    case "audio/ogg":
+      return ".ogg";
+    case "audio/webm":
+      return ".webm";
+    case "video/mp4":
+      return ".mp4";
+    case "video/webm":
+      return ".webm";
+    case "video/ogg":
+      return ".ogv";
+    case "video/quicktime":
+      return ".mov";
     default:
       return "";
   }

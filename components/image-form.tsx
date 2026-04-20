@@ -99,12 +99,12 @@ export function ImageForm({ mode, image }: ImageFormProps) {
               <input
                 name="file"
                 type="file"
-                accept="image/png,image/jpeg,image/webp"
+                accept="image/png,image/jpeg,image/webp,application/pdf,audio/*,video/*"
                 className="w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-slate-950 file:px-4 file:py-2 file:font-semibold file:text-white hover:file:bg-slate-800"
                 required={!isEdit}
               />
               <p className="mt-3 text-sm leading-7 text-slate-500">
-                Formatos permitidos: JPG, PNG e WEBP com tamanho maximo de 5MB.
+                Formatos permitidos: imagens, PDF, audios e videos com tamanho maximo de 50MB.
               </p>
             </div>
           </label>
@@ -150,6 +150,7 @@ export function ImageForm({ mode, image }: ImageFormProps) {
               accentTo={image?.accentTo ?? "#a855f7"}
               heightClassName="h-72"
               imageUrl={image?.imageUrl}
+              previewLabel={image?.previewLabel ?? "Arquivo"}
             />
           </div>
         </div>

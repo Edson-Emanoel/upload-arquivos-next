@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { CopyPrivateLinkButton } from "@/components/copy-private-link-button";
+import { DeleteFileButton } from "@/components/delete-file-button";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { ImageCover } from "@/components/image-cover";
 import { toUiImage } from "@/lib/images";
@@ -40,16 +41,35 @@ export default async function ImageDetailsPage({ params }: ImageDetailsPageProps
       title={uiImage.title}
       description="Tela de visualizacao detalhada conectada aos dados reais da imagem salva."
       userName={session.user.name}
+      showFileCount={false}
+      showSidebar={false}
+      showLogout={false}
     >
-      <div className="grid gap-8 xl:grid-cols-[1.15fr_0.85fr]">
-        <section className="rounded-[1.8rem] border border-slate-200 bg-white/90 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.10)]">
-          <ImageCover
-            title={uiImage.title}
-            accentFrom={uiImage.accentFrom}
-            accentTo={uiImage.accentTo}
-            heightClassName="h-[420px]"
-            imageUrl={uiImage.imageUrl}
-          />
+      <div className="grid items-start gap-8 xl:grid-cols-[1.15fr_0.85fr]">
+        <section className="self-start">
+          
+
+          <div className="relative rounded-[1.8rem] border border-slate-200 bg-white/90 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.10)]">
+            <Link
+              href="/dashboard"
+              aria-label="Voltar"
+              className="absolute left-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-slate-950/70 text-xl font-semibold !text-white backdrop-blur transition hover:bg-slate-950/85"
+            >
+              &larr;
+            </Link>
+
+            <div className="relative rounded-[1.8rem] border border-slate-200 bg-white/90 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.10)]">
+              <ImageCover
+                title={uiImage.title}
+                accentFrom={uiImage.accentFrom}
+                accentTo={uiImage.accentTo}
+                heightClassName="h-[420px]"
+                imageUrl={uiImage.imageUrl}
+                previewLabel={uiImage.previewLabel}
+                showPreviewBadge={false}
+              />
+            </div>
+          </div>
         </section>
 
         <aside className="space-y-6">
@@ -88,12 +108,11 @@ export default async function ImageDetailsPage({ params }: ImageDetailsPageProps
                 Editar imagem
               </Link>
               <CopyPrivateLinkButton path={uiImage.imageUrl} className="px-4 py-3" />
-              <button
-                type="button"
-                className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 transition hover:bg-rose-100"
-              >
-                Excluir
-              </button>
+              <DeleteFileButton
+                imageId={uiImage.id}
+                redirectTo="/dashboard"
+                className="px-4 py-3"
+              />
             </div>
           </div>
         </aside>

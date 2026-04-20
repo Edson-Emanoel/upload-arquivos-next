@@ -7,7 +7,7 @@ type DashboardSidebarProps = {
 const items = [
   { href: "/dashboard", label: "Visão geral" },
   { href: "/imagens/nova", label: "Nova imagem" },
-  { href: "/dashboard#galeria", label: "Galeria" },
+  // { href: "/dashboard#galeria", label: "Galeria" },
 ];
 
 export function DashboardSidebar({ activePath }: DashboardSidebarProps) {

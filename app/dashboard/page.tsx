@@ -30,8 +30,9 @@ export default async function DashboardPage() {
       title={`Galeria de ${session.user.name}`}
       description="Frontend completo do CRUD de imagens com listagem, visualizacao, criacao e edicao usando dados mockados."
       userName={session.user.name}
+      fileCount={uiImages.length}
     >
-      <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+      {/* <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
         <article className="rounded-[1.8rem] bg-slate-950 p-7 text-slate-100 shadow-[0_24px_80px_rgba(15,23,42,0.18)]">
           <p className="text-sm uppercase tracking-[0.18em] text-slate-400">Resumo visual</p>
           <p className="mt-4 max-w-xl text-3xl font-semibold tracking-tight">
@@ -79,7 +80,7 @@ export default async function DashboardPage() {
             </p>
           </article>
         </div>
-      </section>
+      </section> */}
 
       <section id="galeria" className="mt-8">
         <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
