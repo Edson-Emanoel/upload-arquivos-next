@@ -1,7 +1,6 @@
 export type MockImage = {
   id: string;
   title: string;
-  description: string;
   category: string;
   createdAt: string;
   sizeLabel: string;
@@ -14,7 +13,6 @@ export const mockImages: MockImage[] = [
   {
     id: "img-praia-dourada",
     title: "Praia dourada",
-    description: "Foto de capa para a colecao de verao com foco em luz quente e horizonte limpo.",
     category: "Campanha",
     createdAt: "20/04/2026",
     sizeLabel: "2.4 MB",
@@ -25,7 +23,6 @@ export const mockImages: MockImage[] = [
   {
     id: "img-cidade-noturna",
     title: "Cidade noturna",
-    description: "Imagem urbana para banner principal com contraste forte e tons frios.",
     category: "Banner",
     createdAt: "18/04/2026",
     sizeLabel: "3.1 MB",
@@ -36,7 +33,6 @@ export const mockImages: MockImage[] = [
   {
     id: "img-produto-estudio",
     title: "Produto em estudio",
-    description: "Material para vitrine digital com foco em composicao limpa e fundo neutro.",
     category: "E-commerce",
     createdAt: "15/04/2026",
     sizeLabel: "1.8 MB",
@@ -47,7 +43,6 @@ export const mockImages: MockImage[] = [
   {
     id: "img-folhagem-editorial",
     title: "Folhagem editorial",
-    description: "Imagem de apoio para secao institucional com textura organica e leitura suave.",
     category: "Institucional",
     createdAt: "12/04/2026",
     sizeLabel: "2.0 MB",

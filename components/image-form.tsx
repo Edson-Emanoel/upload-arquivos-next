@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { startTransition, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { UiImage } from "@/lib/images";
 import { ImageCover } from "@/components/image-cover";
@@ -16,6 +16,17 @@ export function ImageForm({ mode, image }: ImageFormProps) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | undefined>(image?.imageUrl);
+  const [previewLabel, setPreviewLabel] = useState(image?.previewLabel ?? "Arquivo");
+  const [previewTitle, setPreviewTitle] = useState(image?.title ?? "Nova imagem");
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl?.startsWith("blob:")) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   async function handleSubmit(formData: FormData) {
     setPending(true);
@@ -46,6 +57,36 @@ export function ImageForm({ mode, image }: ImageFormProps) {
     } finally {
       setPending(false);
     }
+  }
+
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      setPreviewUrl(image?.imageUrl);
+      setPreviewLabel(image?.previewLabel ?? "Arquivo");
+      return;
+    }
+
+    setPreviewLabel(getPreviewLabelFromMimeType(file.type));
+
+    if (file.type.startsWith("image/")) {
+      setPreviewUrl((currentUrl) => {
+        if (currentUrl?.startsWith("blob:")) {
+          URL.revokeObjectURL(currentUrl);
+        }
+
+        return URL.createObjectURL(file);
+      });
+      return;
+    }
+
+    setPreviewUrl(undefined);
+  }
+
+  function handleTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value.trim();
+    setPreviewTitle(value || "Nova imagem");
   }
 
   return (
@@ -79,17 +120,7 @@ export function ImageForm({ mode, image }: ImageFormProps) {
               placeholder="Ex.: Banner principal de campanha"
               className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-sky-400 focus:bg-white"
               required
-            />
-          </label>
-
-          <label className="block space-y-2">
-            <span className="text-sm font-medium text-slate-800">Descricao</span>
-            <textarea
-              name="description"
-              defaultValue={image?.description ?? ""}
-              placeholder="Descreva rapidamente a finalidade da imagem"
-              rows={5}
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-7 text-slate-900 outline-none transition focus:border-sky-400 focus:bg-white"
+              onChange={handleTitleChange}
             />
           </label>
 
@@ -102,6 +133,7 @@ export function ImageForm({ mode, image }: ImageFormProps) {
                 accept="image/png,image/jpeg,image/webp,application/pdf,audio/*,video/*"
                 className="w-full text-sm text-slate-700 file:mr-4 file:rounded-xl file:border-0 file:bg-slate-950 file:px-4 file:py-2 file:font-semibold file:text-white hover:file:bg-slate-800"
                 required={!isEdit}
+                onChange={handleFileChange}
               />
               <p className="mt-3 text-sm leading-7 text-slate-500">
                 Formatos permitidos: imagens, PDF, audios e videos com tamanho maximo de 50MB.
@@ -145,12 +177,12 @@ export function ImageForm({ mode, image }: ImageFormProps) {
 
           <div className="mt-5">
             <ImageCover
-              title={image?.title ?? "Nova imagem"}
+              title={previewTitle}
               accentFrom={image?.accentFrom ?? "#0284c7"}
               accentTo={image?.accentTo ?? "#a855f7"}
               heightClassName="h-72"
-              imageUrl={image?.imageUrl}
-              previewLabel={image?.previewLabel ?? "Arquivo"}
+              imageUrl={previewUrl}
+              previewLabel={previewLabel}
             />
           </div>
         </div>
@@ -169,4 +201,24 @@ export function ImageForm({ mode, image }: ImageFormProps) {
       </aside>
     </div>
   );
+}
+
+function getPreviewLabelFromMimeType(mimeType: string) {
+  if (mimeType.startsWith("image/")) {
+    return "";
+  }
+
+  if (mimeType === "application/pdf") {
+    return "";
+  }
+
+  if (mimeType.startsWith("audio/")) {
+    return "";
+  }
+
+  if (mimeType.startsWith("video/")) {
+    return "";
+  }
+
+  return "";
 }

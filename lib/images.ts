@@ -6,12 +6,6 @@ export const createImageSchema = z.object({
     .trim()
     .min(3, "Titulo deve ter pelo menos 3 caracteres")
     .max(120, "Titulo muito longo"),
-  description: z
-    .string()
-    .trim()
-    .max(500, "Descricao muito longa")
-    .optional()
-    .transform((value) => value || null),
 });
 
 export const updateImageSchema = z.object({
@@ -21,18 +15,11 @@ export const updateImageSchema = z.object({
     .min(3, "Titulo deve ter pelo menos 3 caracteres")
     .max(120, "Titulo muito longo")
     .optional(),
-  description: z
-    .string()
-    .trim()
-    .max(500, "Descricao muito longa")
-    .optional()
-    .transform((value) => value || null),
 });
 
 type PersistedImage = {
   id: string;
   title: string;
-  description: string | null;
   filename: string;
   originalName: string;
   mimeType: string;
@@ -46,7 +33,6 @@ type PersistedImage = {
 export type UiImage = {
   id: string;
   title: string;
-  description: string;
   subtitle: string;
   createdAtLabel: string;
   sizeLabel: string;
@@ -61,7 +47,6 @@ export function toImageResponse(image: PersistedImage) {
   return {
     id: image.id,
     title: image.title,
-    description: image.description,
     filename: image.filename,
     originalName: image.originalName,
     mimeType: image.mimeType,
@@ -82,7 +67,6 @@ export function toUiImage(image: PersistedImage): UiImage {
   return {
     id: image.id,
     title: image.title,
-    description: image.description ?? "Sem descricao informada.",
     subtitle: image.originalName,
     createdAtLabel: formatDate(image.createdAt),
     sizeLabel: formatFileSize(image.size),

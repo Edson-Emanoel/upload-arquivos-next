@@ -46,7 +46,6 @@ export async function POST(request: Request) {
 
     const data = createImageSchema.parse({
       title: getStringEntry(formData, "title"),
-      description: getStringEntry(formData, "description"),
     });
 
     const savedFile = await saveImageFile(file, user.name);
@@ -55,7 +54,6 @@ export async function POST(request: Request) {
     const image = await prisma.image.create({
       data: {
         title: data.title,
-        description: data.description,
         filename: savedFile.filename,
         originalName: savedFile.originalName,
         mimeType: savedFile.mimeType,

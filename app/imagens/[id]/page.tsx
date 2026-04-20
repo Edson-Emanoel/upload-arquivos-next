@@ -97,10 +97,7 @@ export default async function ImageDetailsPage({ params }: ImageDetailsPageProps
           </div>
 
           <div className="rounded-[1.8rem] bg-white/90 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.10)]">
-            <p className="text-sm uppercase tracking-[0.18em] text-slate-500">Descricao</p>
-            <p className="mt-4 text-sm leading-8 text-slate-600">{uiImage.description}</p>
-
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3">
               <Link
                 href={`/imagens/${uiImage.id}/editar`}
                 className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold !text-white transition hover:bg-slate-800"

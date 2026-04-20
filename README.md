@@ -1,5 +1,21 @@
 # Projeto de Upload e CRUD de Imagens com Autenticacao
 
+## Como ficaram  as Telas
+
+- Tela Principal:
+
+<img src="preview/dashboard.png" />
+
+
+- Tela de Detalhes:
+
+<img src="preview/detalhes.png" />
+
+
+- Tela de Novo Arquivo:
+
+<img src="preview/novo.png" />
+
 ## Objetivo
 
 Construir uma aplicacao web com:

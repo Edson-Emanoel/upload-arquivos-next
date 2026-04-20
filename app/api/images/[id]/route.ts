@@ -68,12 +68,10 @@ export async function PUT(request: Request, { params }: ImageRouteProps) {
     const file = getFileEntry(formData, "file");
     const parsedData = updateImageSchema.parse({
       title: getStringEntry(formData, "title"),
-      description: getStringEntry(formData, "description"),
     });
 
     const updateData: {
       title?: string;
-      description?: string | null;
       filename?: string;
       originalName?: string;
       mimeType?: string;
@@ -83,10 +81,6 @@ export async function PUT(request: Request, { params }: ImageRouteProps) {
 
     if (parsedData.title !== undefined) {
       updateData.title = parsedData.title;
-    }
-
-    if (parsedData.description !== undefined) {
-      updateData.description = parsedData.description;
     }
 
     if (file) {
