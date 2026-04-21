@@ -41,7 +41,7 @@ export function DashboardShell({
             </span>
             
             <Link
-              href="/"
+              href="/dashboard"
               className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold !text-slate-900 transition hover:border-slate-400 hover:bg-slate-50"
             >
               Home
